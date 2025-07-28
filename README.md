@@ -1,5 +1,5 @@
 # Real-Time Translation of Road Signs
-Victoria Chan's final year project
+Victoria Chan's final year project for a BSc in Computer Science at the University of Reading (full repository uploaded from GitLab, therefore majority of changes not included)
 
 ## About
 Real-time translation of road signs project to take in an input image of a full road scene and return a translated description of all detected road signs to the user.
