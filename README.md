@@ -1,36 +1,68 @@
-# Real-Time Translation of Road Signs
-Victoria Chan's final year project for a BSc in Computer Science at the University of Reading (full repository uploaded from GitLab, therefore majority of changes not included)
+# Real-Time Translation of Road Signs App
+React native mobile application used for detecting, classifying, and translating descriptions of road signs from an input image of a full road scene (refer to Figure 1).<br>
 
-## About
-Real-time translation of road signs project to take in an input image of a full road scene and return a translated description of all detected road signs to the user.
+<div align="center">
+<img src="assets/road-scene.png" width="600">
+<br>
+Figure 1: Example of a road scene image
+</div><br>
 
 **Notice**: System was coded in the Anaconda environment on a Macbook Pro M1, with 8gb RAM, on MacOS Sequoia (15.4.1). iPhone 16 Pro running iOS 18.3 was the primary mobile application simulator. No Windows testing has been done.
 
+## About
+Object detection achieved using a YOLOv8 model trained on the [GTSDB dataset](https://sid.erda.dk/public/archives/ff17dc924eba88d5d01a807357d6614c/published-archive.html).<br>
+Road sign classification performed through a custom-built CNN model, trained on the [GTSRB dataset](https://www.kaggle.com/datasets/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign) (refer to Figure 1 below).<br>
+Road sign description translation provided by [LibreTranslate API](https://github.com/LibreTranslate/LibreTranslate).<br>
+
+<div align="center">
+<img src="assets/cnn-architecture.png" width="600">
+<br>
+Figure 2: Architecture of the custom-built CNN model
+</div>
+
+## Results
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="assets/cnn_accuracy_result.png" width="300"><br>
+      Figure 3a: CNN model's accuracy results
+    </td>
+    <td align="center">
+      <img src="assets/cnn_loss_result.png" width="300"><br>
+      Figure 3b: CNN model's loss results
+    </td>
+  </tr>
+</table><br>
+
+<div align="center">
+<img src="assets/detected-classified-road-scene.png" width="230">
+<br>
+Figure 4: Model application showing the translated description of detected road signs from a full road scene
+</div>
+
 ## Setup
-`git clone` this repository, it is recommended the folder this is cloned into has the same name
+`git clone` this repository, it is recommended the folder this is cloned into has the name "**fyp-victoria-chan**". Renaming folders, unless specified, is discouraged as loading issues may occur when executing the full pipeline.
 
-Unless specified, do not rename folders otherwise loading issues may occur when executing the full pipeline.
+### Dataset preparation
+No dataset is included in the repository due to folder sizes. Datasets are not required to run the program however they should be downloaded and renamed accordingly for model experimenting:
+- [GTSDB](https://sid.erda.dk/public/archives/ff17dc924eba88d5d01a807357d6614c/published-archive.html) - download zip file "FullIJCNN2013.zip" & rename the folder to "**gtsdb-data**". If experimenting with YOLOv8, convert the dataset into YOLO format by running "**gtsdb_yolo.py**" (GTSDB is in PPM format which YOLOv8 does not accept).
+- [GTSRB](https://www.kaggle.com/datasets/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign) - download folders: "Meta", "Train", "Test" & their corresponding csv files. Place all downloads into one folder called "**gtsrb-data**"
 
-**Datasets:**
-No dataset is included in this git repository due to large folder sizes. They should be installed and renamed accordingly:
-- [GTSRB](https://www.kaggle.com/datasets/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign) - download folders: "Meta", "Train", "Test", files: "Meta.csv", "Train.csv", "Test.csv", place into one folder and rename to "gtsrb-data"
-- [GTSDB](https://sid.erda.dk/public/archives/ff17dc924eba88d5d01a807357d6614c/published-archive.html) - download zip file "FullIJCNN2013.zip" and rename the folder to "gtsdb-data". Before running anything else, run the "gtsdb_yolo.py" file to convert GTSDB to YOLO format. These can be used to test the system due to YOLO not taking images in PPM format.
+Both folders should be placed into one folder called "**datasets**". <br>
+Example: "**fyp-victoria-chan/datasets/gtsrb-data/**" should contain all the data downloaded from the Kaggle GTSRB dataset
 
-As well as renaming the folder, both folders should be placed into one folder called "datasets".
-Example: "fyp-victoria-chan/datasets/gtsrb-data/" should contain all the data downloaded from the Kaggle GTSRB dataset
-
-**Dependencies:**
-`pip install requirements.txt`
+### Dependencies
+To download the dependencies, perform `pip install requirements.txt`
 
 ## Running the program
-**On MacOS:**
+### On MacOS:
 - Open terminal
 - Go to the directory "fyp-victoria-chan" if the folder name isn't different
 - Enter `./startup.sh`
 - Do not click anything until the app is running
 
-**On any other OS:**
-- As I do not have access to another device, I have not tested running the program on another device. It is recommended to run the program on a MacOS device that has XCode installed as all coding and testing has been done on MacOS.
+### On other OS:
+- Due to unavailable access to other operating systems, the program has only been done on MacOS. It is recommended to run the program on a MacOS device with XCode and the iPhone simulator installed. 
 
 ## Understanding the directory
 **Key files/folders:**
